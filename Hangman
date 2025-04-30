@@ -1,0 +1,73 @@
+import random
+
+from hangman_words import word_list
+from hangman_art import stages, logo
+
+lives=6
+print(logo)
+
+chosen_word=random.choice(word_list)
+print(chosen_word)
+
+place_holder=""
+word_length=len(chosen_word)
+for position in range(word_length):
+    place_holder+="_"
+
+game_over=False
+correct_letters=[]
+
+while not game_over:
+
+     print(f"You have : {lives} lives remaining, spend them wisely")
+     guess=input(f"Guess a letter").lower()
+
+     if guess in correct_letters:
+         print(f"Youve already guessed : {guess}, try a different letter")
+
+     display=""
+
+     for letter in chosen_word:
+         if letter==guess:
+             correct_letters.append(letter)
+             display+=letter
+
+         elif letter in correct_letters:
+             display+=letter
+
+         else: display+="_"
+
+     print(f"Word to guess : {display}")
+
+     if guess not in chosen_word:
+         lives-=1
+         print("That letter is not in the word")
+
+         if lives==0:
+             game_over=True
+             print("You lost")
+         if "_" not in display:
+             game_over=True
+             print("You won mate well done")
+
+print(stages[lives])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
