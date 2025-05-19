@@ -1,0 +1,51 @@
+import art
+def add(n1, n2):
+    return n1 + n2
+
+
+
+
+
+
+def minus(n1, n2):
+    return n1-n2
+
+def multiply(n1,n2):
+    return n1*n2
+
+
+def divide(n1,n2):
+    return n1 / n2
+
+
+
+
+dictionary={
+    "+":add,
+    "-":minus,
+    "*":multiply,
+    "/":divide,
+
+}
+while True:
+    print(art.logo)
+    choice_of_number=float(input("Which number would you like to choose?\n"))
+
+    while True:
+
+
+
+
+        for symbol in dictionary:
+            print(symbol)
+        choice_of_calculation=input("Choose which calculation you would like to do")
+        choice_of_second_number=float(input(f"What is the second number you would like to {choice_of_calculation}?\n"))
+
+        result=((dictionary[choice_of_calculation](choice_of_number, choice_of_second_number)))
+        print(f"{choice_of_number} {choice_of_calculation} {choice_of_second_number} equals : {result}")
+        same_or_old=input("Would you like to keep this number and calculate it with something else or not? type `yes` or `no`\n").lower()
+        if same_or_old=="yes":
+            choice_of_number=(result)
+        else: break
+
+
