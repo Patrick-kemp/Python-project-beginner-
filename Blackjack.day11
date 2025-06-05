@@ -1,0 +1,88 @@
+import random
+import art
+
+numbers = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
+ace = 11
+
+def blackjack():
+    return random.choices(numbers, k=2)
+
+def computer_function(cards, score):
+    while score<17:
+        new_card=random.choice(numbers)
+        cards.append(new_card)
+        score+=new_card
+    return cards, score
+
+def play_game():
+    user_cards=blackjack()
+    user_score=sum(user_cards)
+
+    computer_cards=blackjack()
+    computer_score=sum(computer_cards)
+
+    game_over=False
+    print(art.logo)
+    print(f"Your cards: {user_cards} (Score: {user_score})")
+    print(f"Computer cards: {computer_cards} (Computer score: {computer_score})")
+
+    if ace in computer_cards and 10 in computer_cards and ace in user_cards and 10 in user_cards:
+        game_over=True
+        print("Its a draw!!! You both have blackjack!")
+    elif ace in user_cards and 10 in user_cards:
+        game_over=True
+        print("You have blackjack! You win!")
+
+    elif ace in computer_cards and 10 in computer_cards:
+        game_over=True
+        print("The computer has blackjack! You lose!")
+
+    while not game_over and user_score<21:
+        choice=input("Would you like to draw another card? Please type `Yes` or `No`.").lower()
+
+        if choice=="yes":
+            new_card=random.choice(numbers)
+            user_cards.append(new_card)
+            user_score+=new_card
+            print(f"Your new deck is {user_cards}. You new score is {user_score}.")
+
+            while user_score>21 and ace in user_cards:
+                user_cards[user_cards.index(11)]=1
+                user_score=sum(user_cards)
+
+                print(f"Your ace has been adjusted to prevent you from going over"
+                      f"21, new score is: {user_score}")
+
+            if user_score>21:
+                game_over=True
+                print(f"You went over 21! Your cards are: {user_cards} and score is {user_score}.")
+
+        else:
+            break
+
+    if not game_over:
+        computer_cards,computer_score=computer_function(computer_cards,computer_score)
+        print(f"The computers hand is: {computer_cards}. Its score is {computer_score}")
+
+        if computer_score>21:
+                print("You win! Computer went over!")
+        elif computer_score>user_score:
+                print("Computer score is closer to 21! You lose!")
+
+        elif computer_score<user_score:
+                print("You win! Your score is closer to 21!")
+
+        else:
+                print(f"Its a draw, you both have {user_score}!")
+
+
+
+
+
+
+
+
+# Game loop
+
+while input("Do you want to play a game of Blackjack? Type `yes` or `no`: ").lower() == "yes":
+    play_game()
