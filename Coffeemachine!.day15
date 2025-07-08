@@ -1,0 +1,118 @@
+
+
+MENU = {
+    "espresso": {
+        "ingredients": {
+            "water": 50,
+            "coffee": 18,
+        },
+        "cost": 1.5,
+    },
+    "latte": {
+        "ingredients": {
+            "water": 200,
+            "milk": 150,
+            "coffee": 24,
+        },
+        "cost": 2.5,
+    },
+    "cappuccino": {
+        "ingredients": {
+            "water": 250,
+            "milk": 100,
+            "coffee": 24,
+        },
+        "cost": 3.0,
+    }
+}
+
+resources = {
+    "water": 300,
+    "milk": 200,
+    "coffee": 100,
+}
+profit=0
+
+"""Create a function that checks if we have enough ingredients to make the drink that has been orderd"""
+def check_resources(order_ingredients):
+
+    for item in order_ingredients:
+
+        if order_ingredients[item]> resources[item]:
+
+            print("Im so sorry but we have actually run out of that drink.")
+
+            return False
+
+        return True
+
+"""Now we create a function that gives the user the exact cost"""
+def get_payment(drink_cost):
+    print(f"Please pay {drink_cost}0")
+def did_they_pay_enough():
+
+    total=int(input("How many 5 pences are you entering?")) * 0.05
+
+    total+=int(input("How many 10 pences are you entering?")) * 0.10
+
+    total+=int(input("How many 20 pences are you entering?")) * 0.20
+
+    total+=int(input("How many 50 pences are you entering?")) * 0.50
+
+    total+=int(input("How many 1 pounds are you entering?")) * 1
+
+    return total
+
+def is_transaction_successful(drink_cost,money_received):
+
+
+
+    if money_received>=drink_cost:
+        print("Thank you!")
+        change=round(money_received-drink_cost,2)
+        global profit
+        profit+=drink_cost
+        print(f"Here is your change: {change}0")
+
+    else:
+        print("Sorry, that isn't enough money.")
+
+        return False
+
+
+
+
+def make_coffee(drink_name, order_ingredients):
+    """Deduct the ingredients needed to make the drink from resources"""
+
+    for item in order_ingredients:
+        resources[item]-=order_ingredients[item]
+
+    print(f"Here is your drink! Enjoy!")
+
+
+is_on=True
+
+while is_on:
+    choice=str(input("Hiya, which coffee drink would you like to purchase? Please enter"
+                 " Cappuccino, Latte or Espresso.\n")).lower()
+    if choice=="off":
+        is_on=False
+
+    elif choice=="report":
+        print(f"Water: {resources["water"]}ml")
+        print(f"Milk: {resources["milk"]}ml")
+        print(f"Coffee: {resources["coffee"]}g")
+        print(f"Money: £{profit}")
+
+    else:
+        drink=MENU[choice]
+        if check_resources(drink["ingredients"]):
+            get_payment(drink["cost"])
+            payment=did_they_pay_enough()
+
+            if is_transaction_successful(drink["cost"], payment):
+                make_coffee( choice, drink["ingredients"],
+                             )
+
+
