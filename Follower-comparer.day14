@@ -1,0 +1,143 @@
+import random
+
+
+from game_data import data
+
+
+
+def format(account):
+      """Take the information from accounts and organise it"""
+      account_name=account["name"]
+      account_descr=account["description"]
+      account_country=account["country"]
+      return f"{account_name}, a {account_descr} from {account_country}"
+
+
+def comparison(user_guess,fol_1,fol_2,):
+      """a_account and b_account are passed through the function as fol_1 and fol_2"""
+
+      """This function returns True if user is correct, False otherwise"""
+
+      """This is important in our play_game function which checks if comparison is true or not in order to know
+       whether to continue the game or not"""
+
+      score_1=fol_1["follower_count"]
+      score_2=fol_2["follower_count"]
+
+      """This simply takes fol_1 (a_account) and fol_2 (b_account) and extracts the follower amount from their list """
+
+
+
+      """If statement checks if the users guess is a or b and then checks to see if their guess is the correct one,
+      
+      if not correct, False is returned which affects the play_game function later on. Otherwise True is returned."""
+
+      if user_guess=="a":
+
+            if score_1>score_2:
+
+                  return True
+
+            else:
+                  print("Incorrect")
+                  return False
+
+
+
+      elif user_guess=="b":
+
+            if score_2>score_1:
+
+                  return True
+
+            else:
+                  print("Incorrect")
+                  return False
+
+
+      """While function catches a time where the user has`nt entered a or b. Tells them to enter a or b for as long as
+       the answer to user guess is not in the list a, b."""
+
+      while user_guess not in ["a","b"]:
+
+
+            user_guess=input("Who has more followers? Type A or B: \n").lower()
+            if user_guess not in ["a","b"]:
+                  print("Invalid input. Please type either A or B ")
+
+
+
+
+
+
+def play_game():
+      print("Welcome to the higher or lower game!\n")
+      score=0
+      a_account = random.choice(data)
+      b_account = random.choice(data)
+      while True:
+            while a_account==b_account:
+                  b_account=random.choice(data)
+
+
+            print(f"Compare A:{format(a_account)}")
+            print(f"Compare B:{format(b_account)}")
+
+            user_guess=input("Who has more followers? Type A or B: \n").lower()
+
+
+
+            correct=comparison(user_guess,a_account,b_account)
+
+            if correct:
+                  score+=1
+                  print(f"Correct! Here is your score {score}")
+
+                  """The winner becomes `a`, so pick a new `b`"""
+                  if user_guess=="a":
+                        a_account=a_account
+                  else:
+                        a_account=b_account
+
+                  b_account=random.choice(data)
+
+
+            else:
+                  print(f"Wrong! Final score: {score}")
+                  if input("Would you like to play again? `Yes` or No`\n").lower()=="yes":
+                        play_game()
+                  else:
+                      break
+
+
+                                                        #"""!!!PLEASE READ!!!"""
+
+"""The play game function is called which initiates the use of other functions/the entire running of the game itself."""
+
+"""The play game function is the most important part of creating this game and many others. It contains the code which
+begins it all."""
+
+"""LIST OF WHAT PLAY GAME DOES:
+                              *It welcomes the user to the game
+                               
+                              *Defines variable Score as 0
+                              
+                              *Defines variables a_account and b_account and gives both of them a random account
+                              
+                              *Checks if they have been given the same account and changes them until no longer the same
+                              
+                              *Prints both of the accounts by passing them into the format function which prints info.
+                               
+                              *User_Guess variable is defined which asks them for an answer for which account has more followers (a or b).
+                               
+                               *Then calls the comparison function and passes the user guess, a_Account and b_Account into the function."""
+
+
+
+play_game()
+
+
+
+
+
+
